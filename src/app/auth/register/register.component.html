@@ -1,36 +1,40 @@
-<div class="register-container">
-  <p-card class="register-card glass-card">
-    <div class="header">
-      <h3>📝 Create Your Account</h3>
-      <p>Join LearnifyTN and start learning today</p>
+<div class="background">
+  <div class="circle circle1"></div>
+  <div class="circle circle2"></div>
+  <div class="circle circle3"></div>
+</div>
+
+<div class="signup-container">
+  <div class="form-card">
+    <div class="icon">
+      <i class="pi pi-user-plus"></i>
+    </div> 
+    
+    <h2>Sign up</h2>
+
+    <input type="text" pInputText placeholder="Enter your username" class="full-width" />
+    <input type="email" pInputText placeholder="Enter your email" class="full-width" />
+    <input type="password" pInputText placeholder="Enter your password" class="full-width" />
+
+    <!-- Role Selection (Radio buttons for Student and Teacher) -->
+    <div class="radio-group">
+      <label for="role" class="role-label">Select your role:</label>
+      <div class="roles">
+        <div class="role-option">
+          <input type="radio" id="student" name="role" value="student"  />
+          <label for="student">Student</label>
+        </div>
+        <div class="role-option">
+          <input type="radio" id="teacher" name="role" value="teacher" />
+          <label for="teacher">Teacher</label>
+        </div>
+      </div>
     </div>
 
-    <form>
-      <div class="form-group horizontal">
-        <label for="username" class="input-label">Username</label>
-        <input id="username" type="text" pInputText class="custom-input" placeholder="Enter your username" />
-      </div>
+ 
 
-      <div class="form-group horizontal">
-        <label for="password" class="input-label">Password</label>
-        <input id="password" type="password" pInputText class="custom-input" placeholder="Create a password" />
-      </div>
+    <button pButton label="Sign up" class="signup-btn"></button>
 
-      <div class="form-group horizontal">
-        <label for="confirmPassword" class="input-label">Confirm</label>
-        <input id="confirmPassword" type="password" pInputText class="custom-input" placeholder="Repeat your password" />
-      </div>
-
-      <div class="form-group center-button">
-        <button pButton type="button" label="Register" class="modern-button"></button>
-      </div>
-
-      <p-divider></p-divider>
-
-      <div class="footer-text">
-        <span>Already have an account?</span>
-        <button pButton type="button" label="Log in" class="p-button-text p-button-info"></button>
-      </div>
-    </form>
-  </p-card>
+    <p class="login-link">Already have an account? <a href="#">Log in</a></p>
+  </div>
 </div>
