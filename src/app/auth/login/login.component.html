@@ -12,10 +12,35 @@
 
     <h2>Login here please !</h2>
 
-    <input type="email" pInputText placeholder="Enter your email " class="full-width" />
-    <input type="password" pInputText placeholder="Enter your password " class="full-width" />
+    <form (ngSubmit)="login()">
+      <input
+        type="text"
+        pInputText
+        placeholder="Enter your email"
+        class="full-width"
+        [(ngModel)]="username"
+        name="username"
+        required
+      />
 
-    <button pButton label="Log in" class="signup-btn"></button>
+      <input
+        type="password"
+        pInputText
+        placeholder="Enter your password"
+        class="full-width"
+        [(ngModel)]="password"
+        name="password"
+        required
+      />
+
+      <button
+        type="submit"
+        pButton
+        label="Log in"
+        class="signup-btn"
+      ></button>
+    </form>
+
 
     <p class="login-link">Don't have an account? <a href="/register">Sign up</a></p>
   </div>

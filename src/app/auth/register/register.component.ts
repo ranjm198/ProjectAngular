@@ -8,6 +8,8 @@ import { PasswordModule } from 'primeng/password';
 import { CheckboxModule } from 'primeng/checkbox';
 import { CommonModule } from '@angular/common';
 import { RadioButton } from 'primeng/radiobutton';
+import { AuthService } from '../../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -17,9 +19,34 @@ import { RadioButton } from 'primeng/radiobutton';
 })
 export class RegisterComponent {
   ingredient!: string;
-  username: string = '';
-  email: string = '';
-  password: string = '';
+
   saveDetails: boolean = true;
   newsletter: boolean = false;
+
+  username = '';
+  email = '';
+  password = '';
+  role = ''; 
+
+  constructor(private auth: AuthService, private router: Router) {}
+
+  register() {
+    const userData = {
+      username: this.username,
+      email: this.email,
+      password: this.password,
+      role: this.role
+    };
+
+    this.auth.register(userData).subscribe({
+      next: () => {
+        alert('Inscription réussie !');
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        alert(err.error.message || 'Erreur lors de l’inscription');
+      }
+    });
+  }
+
 }

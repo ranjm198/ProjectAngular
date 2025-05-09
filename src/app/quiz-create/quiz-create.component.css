@@ -151,7 +151,7 @@ body {
   }
   /* Formulaire dans une carte PrimeNG stylée */
   :host ::ng-deep .modern-add-course-card {
-    background-color: #f8f9fa;
+    background-color: #f8fbff;
     border-radius: 12px;
     box-shadow: 0 8px 20px rgba(0,0,0,0.1);
     padding: 20px;
@@ -248,31 +248,5 @@ body {
   .dropdown-header {
     font-weight: bold;
     font-size: 0.85rem;
-  }
-  .modern-add-course-card {
-    background-color: #f8fbff; /* Bleu très clair */
-    border-radius: 12px;
-    padding: 1rem;
-  }
-  
-  .modern-input {
-    border-radius: 8px;
-    font-size: 0.85rem;
-    padding: 0.5rem 0.75rem;
-  }
-  
-  .btn-outline-primary {
-    font-size: 0.8rem;
-    border-radius: 6px;
-    transition: background-color 0.2s ease;
-  }
-  
-  .btn-outline-primary:hover {
-    background-color: #0d6efd;
-    color: white;
-  }
-  
-  .form-divider {
-    border-top: 1px solid #d1e3f3;
   }
   

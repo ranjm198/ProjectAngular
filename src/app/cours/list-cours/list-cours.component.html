@@ -1,1 +1,148 @@
-<p>list-cours works!</p>
+
+<!-- dashboard.component.html -->
+<div class="wrapper" [class.sidebar-collapsed]="!sidebarOpen">
+  <!-- Sidebar -->
+  <div class="sidebar bg-dark text-white">
+    <div class="sidebar-header text-center py-3">
+      <h4>LearnFyTN</h4>
+    </div>
+    <ul class="nav flex-column px-2">
+      <li class="nav-item"><a class="nav-link text-white" routerLink="/dashboard"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
+      <li class="nav-item"><a class="nav-link text-white" routerLink="/list-cours"><i class="fas fa-list me-2"></i>Course List</a></li>
+      <li class="nav-item"><a class="nav-link text-white" routerLink="/add-cours"><i class="fas fa-plus-circle me-2"></i>Add Course</a></li>
+      <li class="nav-item"><a class="nav-link text-white" routerLink="/my-courses"><i class="fas fa-book me-2"></i>My Courses</a></li>
+      <li class="nav-item"><a class="nav-link text-white" routerLink="/quiz-list"><i class="fas fa-question-circle me-2"></i>Quiz List</a></li>    
+      <li class="nav-item"><a class="nav-link text-white" routerLink="/quiz-create"><i class="fas fa-plus-circle me-2"></i>Add Quiz</a></li>
+      <li class="nav-item"><a class="nav-link text-white" routerLink="/messages"><i class="fas fa-envelope me-2"></i>Messages</a></li>
+    </ul>
+  </div>
+
+  <!-- Page Content -->
+  <div class="main">
+    <!-- Topbar -->
+    <nav class="navbar navbar-expand-lg  px-4">
+      <button class="btn btn-outline-dar me-3" (click)="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <span class="navbar-brand mb-0 h1">List of Courses</span>
+
+ 
+      <div class="ms-auto d-flex align-items-center">
+        <!-- Notification personnalisé -->
+        <div class="notification-wrapper me-3" (click)="toggleDropdown()">
+          <div class="icon-wrapper">
+            <i class="fas fa-bell"></i>
+                    
+            <span *ngIf="notifications.length > 0" class="badge">{{ notifications.length }}</span>
+          </div>
+          <div class="dropdown-menu dropdown-menu-end show" *ngIf="dropdownOpen" style="position: absolute; right: 0; top: 100%;">
+            <div *ngIf="notifications.length === 0" class="dropdown-item text-muted">
+              <i class="fas fa-info-circle me-2"></i> No new notifications
+            </div>
+            <div *ngFor="let notif of notifications" class="dropdown-item d-flex justify-content-between align-items-start">
+              <div class="notif-text">
+                <div class="notif-message">{{ notif.message }}</div>
+                <div class="notif-time small text-muted">{{ notif.timestamp | date:'short' }}</div>
+              </div>
+              <i class="fas fa-book text-primary ms-2"></i>
+            </div>
+          </div>
+        </div>
+      
+        <!-- Profile personnalisé (comme notification) -->
+        <div class="notification-wrapper" (click)="toggleProfileDropdown()">
+          <div class="icon-wrapper btn btn-outline-secondary">
+            <i class="fas fa-user"></i>
+          </div>
+      
+          <div class="dropdown-menu dropdown-menu-end show" *ngIf="profileDropdownOpen" style="position: absolute; right: 0; top: 100%;">
+            <div class="dropdown-header px-3 py-2 text-muted"> Welcome {{ username || 'Admin' }} !</div>
+            <div class="dropdown-item"><i class="fas fa-user-edit me-2"></i>Edit Profile</div>
+            <hr class="dropdown-divider my-1">
+            <div class="dropdown-item text-danger" (click)="logout()">
+              <i class="fas fa-sign-out-alt me-2"></i>Logout
+            </div>
+                      </div>
+        </div>
+      </div>
+    </nav>
+    <div class="flex justify-center mb-4">
+      <p-breadcrumb 
+        [model]="items"
+        class="bg-transparent border-none shadow-none p-0">
+        <ng-template #item let-item>
+          <ng-container *ngIf="item.route; else elseBlock">
+            <a [routerLink]="item.route" class="p-breadcrumb-item-link">
+              <span [ngClass]="[item.icon ? item.icon : '', 'text-color']"></span>
+              <span class="text-primary font-semibold">{{ item.label }}</span>
+            </a>
+          </ng-container>
+          <ng-template #elseBlock>
+            <a [href]="item.url">
+              <span class="text-color">{{ item.label }}</span>
+            </a>
+          </ng-template>
+        </ng-template>
+      </p-breadcrumb>
+    </div>
+    <div class="container-fluid mt-4">
+      <div class="row">
+        <div class="col-12">
+          <div class="card p-4 shadow-sm border-light">
+            <h6 class="mb-4 d-flex align-items-center text-secondary">
+              <i class="fas fa-book me-2 text-primary fs-6"></i> Courses List
+            </h6>
+    
+            <p-table
+              [value]="myCourses"
+              [paginator]="true"
+              [rows]="5"
+              responsiveLayout="scroll"
+              class="p-datatable-sm"
+            >
+              <ng-template pTemplate="header">
+                <tr>
+                  <th class="small">Course Name</th>
+                  <th class="small">Subject</th>
+                  <th class="small">File</th>
+                  <th class="small text-center">Actions</th>
+                </tr>
+              </ng-template>
+    
+              <ng-template pTemplate="body" let-course>
+                <tr>
+                  <td class="small">{{ course.nomCours }}</td>
+                  <td class="small">{{ course.matiere }}</td>
+                  <td class="small">
+                    <a
+                      [href]="'http://localhost:5000/uploads/' + course.pdfPath"
+                      target="_blank"
+                      class="text-decoration-none text-primary"
+                    >
+                      <i class="fas fa-file-pdf me-1"></i>View PDF
+                    </a>
+                  </td>
+                  <td class="text-center">
+                    <button
+                      pButton
+                      icon="pi pi-trash"
+                      class="p-button-sm p-button-outlined p-button-danger"
+                      (click)="deleteCourse(course._id)"
+                    >
+                    </button>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+    
+            <p-toast></p-toast>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+
+  </div>
+</div>

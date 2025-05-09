@@ -1,1 +1,45 @@
-<p>profile works!</p>
+<br>
+
+<div class="card flex justify-center">
+    <p-breadcrumb class="max-w-full" [model]="items">
+        <ng-template #item let-item>
+            <ng-container *ngIf="item.route; else elseBlock">
+                <a [routerLink]="item.route" class="p-breadcrumb-item-link">
+                    <span [ngClass]="[item.icon ? item.icon : '', 'text-color']"></span>
+                    <span class="text-primary font-semibold">{{ item.label }}</span>
+                </a>
+            </ng-container>
+            <ng-template #elseBlock>
+                <a [href]="item.url">
+                    <span class="text-color">{{ item.label }}</span>
+                </a>
+            </ng-template>
+        </ng-template>
+    </p-breadcrumb>
+</div>
+<br>
+
+<p-card header="Edit Profil" styleClass="modern-add-course-card">
+    <hr class="form-divider" />
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" id="profileForm" class="modern-form">
+
+        <div class="form-group">
+            <label for="username">Username :</label>
+            <input id="username" type="text" pInputText formControlName="username" placeholder="Enter your username" class="modern-input" />
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email :</label>
+            <input id="email" type="email" pInputText formControlName="email" placeholder="Enter your email" class="modern-input" />
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password :</label>
+            <input id="password" type="password" pPassword formControlName="password" placeholder="Enter your password" toggleMask class="modern-input" />
+        </div>
+
+        <button type="submit" class="submit-button">Update Profile</button>
+    </form>
+</p-card>
+
+<p-toast></p-toast>
