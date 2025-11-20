@@ -1,45 +1,141 @@
-<br>
 
-<div class="card flex justify-center">
-    <p-breadcrumb class="max-w-full" [model]="items">
-        <ng-template #item let-item>
-            <ng-container *ngIf="item.route; else elseBlock">
-                <a [routerLink]="item.route" class="p-breadcrumb-item-link">
-                    <span [ngClass]="[item.icon ? item.icon : '', 'text-color']"></span>
-                    <span class="text-primary font-semibold">{{ item.label }}</span>
-                </a>
-            </ng-container>
-            <ng-template #elseBlock>
-                <a [href]="item.url">
-                    <span class="text-color">{{ item.label }}</span>
-                </a>
-            </ng-template>
-        </ng-template>
-    </p-breadcrumb>
+<!-- dashboard.component.html -->
+<div class="wrapper" [class.sidebar-collapsed]="!sidebarOpen">
+    <!-- Sidebar -->
+    <div class="sidebar bg-dark text-white">
+      <div class="sidebar-header text-center py-3">
+      <h3>AqraOnline</h3>
+      </div>
+     <ul class="nav flex-column px-2">
+      <li class="nav-item"><a class="nav-link text-white" routerLink="/dashboard"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
+      <li class="nav-item"><a class="nav-link text-white" routerLink="/list-cours"><i class="fas fa-list me-2"></i>Course List</a></li>
+      <li class="nav-item"><a class="nav-link text-white" routerLink="/add-cours"><i class="fas fa-plus-circle me-2"></i>Add Course</a></li>
+      <li class="nav-item"><a class="nav-link text-white" routerLink="/cours-join"><i class="fas fa-book me-2"></i>My Courses</a></li>
+      <li class="nav-item"><a class="nav-link text-white" routerLink="/quiz-list"><i class="fas fa-question-circle me-2"></i>Quiz List</a></li>    
+      <li class="nav-item"><a class="nav-link text-white" routerLink="/quiz-create"><i class="fas fa-plus-circle me-2"></i>Add Quiz</a></li>
+      <li class="nav-item"><a class="nav-link text-white" routerLink="/exams"><i class="fas fa-file-alt"></i>Exams List</a></li>
+          <li class="nav-item"><a class="nav-link text-white" routerLink="/add-exam"><i class="fas fa-plus-square"></i>Add examen</a></li>
+
+    </ul>
+    </div>
+  
+    <!-- Page Content -->
+    <div class="main">
+      <!-- Topbar -->
+      <nav class="navbar navbar-expand-lg  px-4">
+        <button class="btn btn-outline-dar me-3" (click)="toggleSidebar()">
+          <i class="fas fa-bars"></i>
+        </button>
+  
+  
+    
+        <div class="ms-auto d-flex align-items-center">
+          <!-- Notification personnalisé -->
+          <div class="notification-wrapper me-3" (click)="toggleDropdown()">
+            <div class="icon-wrapper">
+              <i class="fas fa-bell"></i>
+                      
+              <span *ngIf="notifications.length > 0" class="badge">{{ notifications.length }}</span>
+            </div>
+            <div class="dropdown-menu dropdown-menu-end show" *ngIf="dropdownOpen" style="position: absolute; right: 0; top: 100%;">
+              <div *ngIf="notifications.length === 0" class="dropdown-item text-muted">
+                <i class="fas fa-info-circle me-2"></i> No new notifications
+              </div>
+              <div *ngFor="let notif of notifications" class="dropdown-item d-flex justify-content-between align-items-start">
+                <div class="notif-text">
+                  <div class="notif-message">{{ notif.message }}</div>
+                  <div class="notif-time small text-muted">{{ notif.timestamp | date:'short' }}</div>
+                </div>
+                <i class="fas fa-book text-primary ms-2"></i>
+              </div>
+            </div>
+          </div>
+        
+          <!-- Profile personnalisé (comme notification) -->
+          <div class="notification-wrapper" (click)="toggleProfileDropdown()">
+            <div class="icon-wrapper btn btn-outline-secondary">
+              <i class="fas fa-user"></i>
+            </div>
+        
+            <div class="dropdown-menu dropdown-menu-end show" *ngIf="profileDropdownOpen" style="position: absolute; right: 0; top: 100%;">
+              <div class="dropdown-header px-3 py-2 text-muted"> Welcome {{ username || 'Admin' }} !</div>
+<div class="dropdown-item" (click)="goToProfile()">
+  <i class="fas fa-user-edit me-2"></i>Edit Profile
+</div>              <hr class="dropdown-divider my-1">
+              <div class="dropdown-item text-danger" (click)="logout()">
+                <i class="fas fa-sign-out-alt me-2"></i>Logout
+              </div>
+                        </div>
+          </div>
+        </div>
+      </nav>
+  <div class="flex justify-center mb-4">
+  <p-breadcrumb 
+    [model]="items"
+    class="bg-transparent border-none shadow-none p-0">
+    <ng-template #item let-item>
+      <ng-container *ngIf="item.route; else elseBlock">
+        <a [routerLink]="item.route" class="p-breadcrumb-item-link">
+          <span [ngClass]="[item.icon ? item.icon : '', 'text-color']"></span>
+          <span class="text-primary font-semibold">{{ item.label }}</span>
+        </a>
+      </ng-container>
+      <ng-template #elseBlock>
+        <a [href]="item.url">
+          <span class="text-color">{{ item.label }}</span>
+        </a>
+      </ng-template>
+    </ng-template>
+  </p-breadcrumb>
 </div>
-<br>
 
-<p-card header="Edit Profil" styleClass="modern-add-course-card">
-    <hr class="form-divider" />
-    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" id="profileForm" class="modern-form">
+      <div class="container-fluid mt-4">
+        <div class="row">
+          <div class="col-12">
+             <h4 class="mb-4 d-flex align-items-center text-dark">
+    <i class="fas fa-user-edit me-2 text-primary fs-6"></i> Edit Profil
+  </h4>
+  
+       <div class="card p-4 shadow-sm">
+ 
 
-        <div class="form-group">
-            <label for="username">Username :</label>
-            <input id="username" type="text" pInputText formControlName="username" placeholder="Enter your username" class="modern-input" />
+        <div class="row align-items-center">
+          <!-- Left: User Icon -->
+          <div class="col-md-4 text-center mb-4 mb-md-0">
+            <div class="user-avatar">
+              <i class="fas fa-user-circle"></i>
+            </div>
+          </div>
+
+          <!-- Right: Form -->
+          <div class="col-md-8">
+            <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" id="profileForm">
+              <div class="form-group mb-3">
+                <label for="username">Username</label>
+                <input type="text" id="username" formControlName="username" pInputText class="form-control" placeholder="Enter your username" />
+              </div>
+              <div class="form-group mb-3">
+                <label for="email">Email</label>
+                <input type="email" id="email" formControlName="email" pInputText class="form-control" placeholder="Enter your email" />
+              </div>
+              <div class="form-group mb-4">
+                <label for="password">Password</label>
+                <input type="password" id="password" formControlName="password" pPassword toggleMask class="form-control" placeholder="Enter your password" />
+              </div>
+              <button type="submit" class="btn btn-primary w-100">
+                <i class="fas fa-save me-1"></i> Update Profile
+              </button>
+            </form>
+          </div>
         </div>
+        
+</div>
 
-        <div class="form-group">
-            <label for="email">Email :</label>
-            <input id="email" type="email" pInputText formControlName="email" placeholder="Enter your email" class="modern-input" />
+          </div>
         </div>
-
-        <div class="form-group">
-            <label for="password">Password :</label>
-            <input id="password" type="password" pPassword formControlName="password" placeholder="Enter your password" toggleMask class="modern-input" />
-        </div>
-
-        <button type="submit" class="submit-button">Update Profile</button>
-    </form>
-</p-card>
-
-<p-toast></p-toast>
+      </div>
+      
+      
+    </div>
+  </div>
+  

@@ -96,6 +96,10 @@ h2 {
   border-radius: 6px;
 }
 
+.signup-btn:hover {
+  background: linear-gradient(to right, #1a2a6c, #3f5efb); /* même couleur */
+  opacity: 0.9; /* effet léger au survol */
+}
 .login-link {
   margin-top: 20px;
   font-size: 14px;

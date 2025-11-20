@@ -4,16 +4,18 @@
   <!-- Sidebar -->
   <div class="sidebar bg-dark text-white">
     <div class="sidebar-header text-center py-3">
-      <h4>LearnFyTN</h4>
+      <h3>AqraOnline</h3>
     </div>
-    <ul class="nav flex-column px-2">
+   <ul class="nav flex-column px-2">
       <li class="nav-item"><a class="nav-link text-white" routerLink="/dashboard"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
       <li class="nav-item"><a class="nav-link text-white" routerLink="/list-cours"><i class="fas fa-list me-2"></i>Course List</a></li>
       <li class="nav-item"><a class="nav-link text-white" routerLink="/add-cours"><i class="fas fa-plus-circle me-2"></i>Add Course</a></li>
-      <li class="nav-item"><a class="nav-link text-white" routerLink="/my-courses"><i class="fas fa-book me-2"></i>My Courses</a></li>
+      <li class="nav-item"><a class="nav-link text-white" routerLink="/cours-join"><i class="fas fa-book me-2"></i>My Courses</a></li>
       <li class="nav-item"><a class="nav-link text-white" routerLink="/quiz-list"><i class="fas fa-question-circle me-2"></i>Quiz List</a></li>    
       <li class="nav-item"><a class="nav-link text-white" routerLink="/quiz-create"><i class="fas fa-plus-circle me-2"></i>Add Quiz</a></li>
-      <li class="nav-item"><a class="nav-link text-white" routerLink="/messages"><i class="fas fa-envelope me-2"></i>Messages</a></li>
+      <li class="nav-item"><a class="nav-link text-white" routerLink="/exams"><i class="fas fa-file-alt"></i>Exams List</a></li>
+          <li class="nav-item"><a class="nav-link text-white" routerLink="/add-exam"><i class="fas fa-plus-square"></i>Add examen</a></li>
+
     </ul>
   </div>
 
@@ -25,7 +27,6 @@
         <i class="fas fa-bars"></i>
       </button>
 
-      <span class="navbar-brand mb-0 h1">List of Courses</span>
 
  
       <div class="ms-auto d-flex align-items-center">
@@ -58,8 +59,9 @@
       
           <div class="dropdown-menu dropdown-menu-end show" *ngIf="profileDropdownOpen" style="position: absolute; right: 0; top: 100%;">
             <div class="dropdown-header px-3 py-2 text-muted"> Welcome {{ username || 'Admin' }} !</div>
-            <div class="dropdown-item"><i class="fas fa-user-edit me-2"></i>Edit Profile</div>
-            <hr class="dropdown-divider my-1">
+<div class="dropdown-item" (click)="goToProfile()">
+  <i class="fas fa-user-edit me-2"></i>Edit Profile
+</div>            <hr class="dropdown-divider my-1">
             <div class="dropdown-item text-danger" (click)="logout()">
               <i class="fas fa-sign-out-alt me-2"></i>Logout
             </div>
@@ -89,53 +91,59 @@
     <div class="container-fluid mt-4">
       <div class="row">
         <div class="col-12">
-          <div class="card p-4 shadow-sm border-light">
-            <h6 class="mb-4 d-flex align-items-center text-secondary">
-              <i class="fas fa-book me-2 text-primary fs-6"></i> Courses List
-            </h6>
-    
-            <p-table
-              [value]="myCourses"
-              [paginator]="true"
-              [rows]="5"
-              responsiveLayout="scroll"
-              class="p-datatable-sm"
-            >
-              <ng-template pTemplate="header">
-                <tr>
-                  <th class="small">Course Name</th>
-                  <th class="small">Subject</th>
-                  <th class="small">File</th>
-                  <th class="small text-center">Actions</th>
-                </tr>
-              </ng-template>
-    
-              <ng-template pTemplate="body" let-course>
-                <tr>
-                  <td class="small">{{ course.nomCours }}</td>
-                  <td class="small">{{ course.matiere }}</td>
-                  <td class="small">
-                    <a
-                      [href]="'http://localhost:5000/uploads/' + course.pdfPath"
-                      target="_blank"
-                      class="text-decoration-none text-primary"
-                    >
-                      <i class="fas fa-file-pdf me-1"></i>View PDF
-                    </a>
-                  </td>
-                  <td class="text-center">
-                    <button
-                      pButton
-                      icon="pi pi-trash"
-                      class="p-button-sm p-button-outlined p-button-danger"
-                      (click)="deleteCourse(course._id)"
-                    >
-                    </button>
-                  </td>
-                </tr>
-              </ng-template>
-            </p-table>
-    
+          <div class="card p-4 shadow-sm ">
+           
+                <h4> <i class="fas fa-book me-2 text-primary fs-6"></i>Courses list</h4>
+<br>
+           <p-table
+  [value]="myCourses"
+  [paginator]="true"
+  [rows]="5"
+  responsiveLayout="scroll"
+  class="p-datatable-sm"
+  
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="nomCours" class="small">
+        Course Name
+        <p-sortIcon field="nomCours"></p-sortIcon>
+      </th>
+      <th pSortableColumn="matiere" class="small">
+        Subject
+        <p-sortIcon field="matiere"></p-sortIcon>
+      </th>
+      <th class="small">File</th>
+      <th class="small text-center">Actions</th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-course>
+    <tr>
+      <td class="small">{{ course.nomCours }}</td>
+      <td class="small">{{ course.matiere }}</td>
+      <td class="small">
+        <a
+          [href]="'http://localhost:5000/uploads/' + course.pdfPath"
+          target="_blank"
+          class="text-decoration-none text-primary"
+        >
+          <i class="fas fa-file-pdf me-1"></i>View PDF
+        </a>
+      </td>
+      <td class="text-center">
+        <button
+          pButton
+          icon="pi pi-trash"
+          class="p-button-sm p-button-outlined p-button-danger"
+          (click)="deleteCourse(course._id)"
+        ></button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+
             <p-toast></p-toast>
           </div>
         </div>

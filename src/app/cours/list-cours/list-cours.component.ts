@@ -39,7 +39,9 @@ export class ListCoursComponent {
   dropdownOpen = false;
   profileDropdownOpen = false;
   username: string = '';
-
+goToProfile() {
+  this.router.navigate(['/profile']); // remplacez '/profile' par le vrai chemin de votre page profil
+}
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;
     this.profileDropdownOpen = false; // Ferme l’autre

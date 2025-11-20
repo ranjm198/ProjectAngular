@@ -1,19 +1,20 @@
-
 <!-- dashboard.component.html -->
 <div class="wrapper" [class.sidebar-collapsed]="!sidebarOpen">
   <!-- Sidebar -->
   <div class="sidebar bg-dark text-white">
     <div class="sidebar-header text-center py-3">
-      <h4>Admin</h4>
+      <h3>AqraOnline</h3>
     </div>
-    <ul class="nav flex-column px-2">
+     <ul class="nav flex-column px-2">
       <li class="nav-item"><a class="nav-link text-white" routerLink="/dashboard"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
       <li class="nav-item"><a class="nav-link text-white" routerLink="/list-cours"><i class="fas fa-list me-2"></i>Course List</a></li>
       <li class="nav-item"><a class="nav-link text-white" routerLink="/add-cours"><i class="fas fa-plus-circle me-2"></i>Add Course</a></li>
-      <li class="nav-item"><a class="nav-link text-white" routerLink="/my-courses"><i class="fas fa-book me-2"></i>My Courses</a></li>
+      <li class="nav-item"><a class="nav-link text-white" routerLink="/cours-join"><i class="fas fa-book me-2"></i>My Courses</a></li>
       <li class="nav-item"><a class="nav-link text-white" routerLink="/quiz-list"><i class="fas fa-question-circle me-2"></i>Quiz List</a></li>    
       <li class="nav-item"><a class="nav-link text-white" routerLink="/quiz-create"><i class="fas fa-plus-circle me-2"></i>Add Quiz</a></li>
-      <li class="nav-item"><a class="nav-link text-white" routerLink="/messages"><i class="fas fa-envelope me-2"></i>Messages</a></li>
+      <li class="nav-item"><a class="nav-link text-white" routerLink="/exams"><i class="fas fa-file-alt"></i>Exams List</a></li>
+          <li class="nav-item"><a class="nav-link text-white" routerLink="/add-exam"><i class="fas fa-plus-square"></i>Add examen</a></li>
+
     </ul>
   </div>
 
@@ -25,32 +26,48 @@
         <i class="fas fa-bars"></i>
       </button>
 
-      <span class="navbar-brand mb-0 h1">Dashboard</span>
 
       <div class="ms-auto d-flex align-items-center">
-        <!-- Notification Dropdown -->
-        <div class="dropdown me-3">
-          <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+        <!-- Notification personnalisé -->
+        <div class="notification-wrapper me-3" (click)="toggleDropdown()">
+          <div class="icon-wrapper">
             <i class="fas fa-bell"></i>
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><span class="dropdown-item-text">No new notifications</span></li>
-          </ul>
+                    
+            <span *ngIf="notifications.length > 0" class="badge">{{ notifications.length }}</span>
+          </div>
+          <div class="dropdown-menu dropdown-menu-end show" *ngIf="dropdownOpen" style="position: absolute; right: 0; top: 100%;">
+            <div *ngIf="notifications.length === 0" class="dropdown-item text-muted">
+              <i class="fas fa-info-circle me-2"></i> No new notifications
+            </div>
+            <div *ngFor="let notif of notifications" class="dropdown-item d-flex justify-content-between align-items-start">
+              <div class="notif-text">
+                <div class="notif-message">{{ notif.message }}</div>
+                <div class="notif-time small text-muted">{{ notif.timestamp | date:'short' }}</div>
+              </div>
+              <i class="fas fa-book text-primary ms-2"></i>
+            </div>
+          </div>
         </div>
-
-        <!-- Dropdown Profile -->
-        <div class="dropdown">
-          <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown">
-            Welcome, Admin
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><h6 class="dropdown-header">adminexample.com</h6></li>
-            <li><a class="dropdown-item" href="#"><i class="fas fa-user-edit me-2"></i>Edit Profile</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><button class="dropdown-item text-danger"><i class="fas fa-sign-out-alt me-2"></i>Logout</button></li>
-          </ul>
+      
+        <!-- Profile personnalisé (comme notification) -->
+        <div class="notification-wrapper" (click)="toggleProfileDropdown()">
+          <div class="icon-wrapper btn btn-outline-secondary">
+            <i class="fas fa-user"></i>
+          </div>
+      
+          <div class="dropdown-menu dropdown-menu-end show" *ngIf="profileDropdownOpen" style="position: absolute; right: 0; top: 100%;">
+            <div class="dropdown-header px-3 py-2 text-muted"> Welcome {{ username || 'Admin' }} !</div>
+<div class="dropdown-item" (click)="goToProfile()">
+  <i class="fas fa-user-edit me-2"></i>Edit Profile
+</div>            <hr class="dropdown-divider my-1">
+            <div class="dropdown-item text-danger" (click)="logout()">
+              <i class="fas fa-sign-out-alt me-2"></i>Logout
+            </div>
+                      </div>
         </div>
       </div>
+      
+      
     </nav>
     <div class="flex justify-center mb-4">
       <p-breadcrumb 
@@ -70,7 +87,8 @@
           </ng-template>
         </ng-template>
       </p-breadcrumb>
-    </div>
+
+    </div>  
     <div class="container-fluid mt-4" *ngIf="quiz">
       <div class="row">
         <div class="col-12">
@@ -83,7 +101,7 @@
               <div *ngFor="let question of quiz.questions; let i = index" class="mb-4">
                 <div class="card border-light shadow-sm">
                   <div class="card-body">
-                    <h5 class="card-title text-primary">{{ i + 1 }}. {{ question.question }}</h5>
+                    <h5 class="card-title ">{{ i + 1 }}. {{ question.question }}</h5>
     
                     <div *ngFor="let option of question.options; let j = index" class="form-check mb-2">
                       <input
@@ -108,6 +126,16 @@
                 <i class="fas fa-paper-plane me-1"></i> Envoyer Mes Réponses
               </button>
             </form>
+            <p-dialog  [(visible)]="scoreDialogVisible"  [modal]="true" [style]="{ width: '500px' }"[closable]="false" [style]="{width: '320px'}" class="text-center">
+  <div class="text-center p-3">
+    <p class="fs-5 mb-2">🎉 Quiz terminé !</p>
+    <p class="fw-bold text-primary">Votre score : {{ quizScore }}</p>
+    <button class="btn btn-primary mt-3" (click)="scoreDialogVisible = false">
+      OK
+    </button>
+  </div>
+</p-dialog>
+
           </div>
         </div>
       </div>

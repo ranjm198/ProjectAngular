@@ -1,0 +1,7 @@
+<h2>Discussion</h2>
+<div *ngFor="let msg of messages">
+  <p><strong>{{ msg.from === currentUserId ? 'Moi' : 'Enseignant' }}:</strong> {{ msg.content }}</p>
+</div>
+
+<input [(ngModel)]="message" placeholder="Écrire un message..." />
+<button (click)="sendMessage()">Envoyer</button>

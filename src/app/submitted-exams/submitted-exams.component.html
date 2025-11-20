@@ -1,0 +1,24 @@
+<div class="card p-4">
+  <h2>Soumissions des examens</h2>
+
+  <div *ngIf="submissions.length === 0">
+    {{ message || 'Aucune soumission disponible.' }}
+  </div>
+
+  <table *ngIf="submissions.length > 0" class="table table-bordered mt-3">
+    <thead>
+      <tr>
+        <th>Étudiant</th>
+        <th>Fichier</th>
+        <th>Exam ID</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let s of submissions">
+        <td>{{ s.etudiant }}</td>
+        <td><a [href]="'/uploads/' + s.filePath" target="_blank">Télécharger</a></td>
+        <td>{{ s.examId }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

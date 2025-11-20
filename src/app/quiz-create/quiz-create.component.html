@@ -4,16 +4,18 @@
   <!-- Sidebar -->
   <div class="sidebar bg-dark text-white">
     <div class="sidebar-header text-center py-3">
-      <h4>Admin</h4>
+      <h3>AqraOnline</h3>
     </div>
-    <ul class="nav flex-column px-2">
+     <ul class="nav flex-column px-2">
       <li class="nav-item"><a class="nav-link text-white" routerLink="/dashboard"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
       <li class="nav-item"><a class="nav-link text-white" routerLink="/list-cours"><i class="fas fa-list me-2"></i>Course List</a></li>
       <li class="nav-item"><a class="nav-link text-white" routerLink="/add-cours"><i class="fas fa-plus-circle me-2"></i>Add Course</a></li>
-      <li class="nav-item"><a class="nav-link text-white" routerLink="/my-courses"><i class="fas fa-book me-2"></i>My Courses</a></li>
+      <li class="nav-item"><a class="nav-link text-white" routerLink="/cours-join"><i class="fas fa-book me-2"></i>My Courses</a></li>
       <li class="nav-item"><a class="nav-link text-white" routerLink="/quiz-list"><i class="fas fa-question-circle me-2"></i>Quiz List</a></li>    
       <li class="nav-item"><a class="nav-link text-white" routerLink="/quiz-create"><i class="fas fa-plus-circle me-2"></i>Add Quiz</a></li>
-      <li class="nav-item"><a class="nav-link text-white" routerLink="/messages"><i class="fas fa-envelope me-2"></i>Messages</a></li>
+      <li class="nav-item"><a class="nav-link text-white" routerLink="/exams"><i class="fas fa-file-alt"></i>Exams List</a></li>
+          <li class="nav-item"><a class="nav-link text-white" routerLink="/add-exam"><i class="fas fa-plus-square"></i>Add examen</a></li>
+
     </ul>
   </div>
 
@@ -25,7 +27,6 @@
         <i class="fas fa-bars"></i>
       </button>
 
-      <span class="navbar-brand mb-0 h1">Create Quiz</span>
 
     
       <div class="ms-auto d-flex align-items-center">
@@ -58,8 +59,9 @@
       
           <div class="dropdown-menu dropdown-menu-end show" *ngIf="profileDropdownOpen" style="position: absolute; right: 0; top: 100%;">
             <div class="dropdown-header px-3 py-2 text-muted"> Welcome {{ username || 'Admin' }} !</div>
-            <div class="dropdown-item"><i class="fas fa-user-edit me-2"></i>Edit Profile</div>
-            <hr class="dropdown-divider my-1">
+<div class="dropdown-item" (click)="goToProfile()">
+  <i class="fas fa-user-edit me-2"></i>Edit Profile
+</div>               <hr class="dropdown-divider my-1">
             <div class="dropdown-item text-danger" (click)="logout()">
               <i class="fas fa-sign-out-alt me-2"></i>Logout
             </div>
@@ -90,10 +92,9 @@
       <div class="row">
         <div class="col-12">
           <div class="card p-4 shadow-sm">
-            <h6 class="mb-4 d-flex align-items-center text-secondary">
-              <i class="fas fa-plus-circle me-2 text-primary fs-6"></i> Create Quiz
-            </h6>
-    
+           
+                <h4> <i class="fas fa-book me-2 text-primary fs-6"></i>Create quiz</h4>
+<br>
             <form (submit)="createQuiz(); $event.preventDefault()">
               <!-- Quiz Title -->
               <div class="mb-3">
@@ -105,6 +106,7 @@
                   name="title"
                   class="form-control form-control-sm"
                   required
+                  pInputText pTooltip="Enter quiz title" tooltipPosition="left" 
                 />
               </div>
     
@@ -117,11 +119,11 @@
                     <div class="mb-3">
                       <input
                         type="text"
-                        placeholder="Question text"
                         [(ngModel)]="question.question"
                         name="question-{{i}}"
                         class="form-control form-control-sm"
                         required
+                         pInputText pTooltip="Enter question  {{ i + 1 }}" tooltipPosition="left" 
                       />
                     </div>
     
@@ -139,7 +141,7 @@
     
                     <!-- Correct Answer -->
                     <div class="mb-3">
-                      <label for="correctAnswer-{{i}}" class="form-label small">Correct Answer (Option index)</label>
+                      <label for="correctAnswer-{{i}}" class="form-label small">Correct Answer </label>
                       <input
                         type="number"
                         id="correctAnswer-{{i}}"
@@ -149,6 +151,8 @@
                         name="correctAnswer-{{i}}"
                         class="form-control form-control-sm"
                         required
+                   pInputText pTooltip="Option index" tooltipPosition="left" 
+  
                       />
                     </div>
     

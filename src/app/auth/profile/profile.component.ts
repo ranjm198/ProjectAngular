@@ -14,6 +14,8 @@ import { CardModule } from 'primeng/card';
 import { BadgeModule } from 'primeng/badge';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { FileUploadModule } from 'primeng/fileupload';
+import { WebsocketService } from '../../websocket.service';
+import { AuthService } from '../../auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -35,12 +37,38 @@ import { FileUploadModule } from 'primeng/fileupload';
 export class ProfileComponent {
   profileForm: FormGroup;
   items: MenuItem[] | undefined;
+ sidebarOpen = true;
+  notifications: { message: string; timestamp: Date }[] = [];
+  dropdownOpen = false;
+  profileDropdownOpen = false;
+    username: string = '';
 
+  toggleDropdown() {
+    this.dropdownOpen = !this.dropdownOpen;
+    this.profileDropdownOpen = false; // Ferme l’autre
+  }
+  
+  toggleProfileDropdown() {
+    this.profileDropdownOpen = !this.profileDropdownOpen;
+    this.dropdownOpen = false; // Ferme l’autre
+  }
+  toggleSidebar() {
+    this.sidebarOpen = !this.sidebarOpen;
+  }
+   logout() {
+    this.auth.logout();
+    this.router.navigate(['/login']);
+  }
+    goToProfile() {
+  this.router.navigate(['/profile']); // remplacez '/profile' par le vrai chemin de votre page profil
+}
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
+     private socketService: WebsocketService,
+     private auth: AuthService
   ) {
     this.profileForm = this.fb.group({
       username: [''],
@@ -74,15 +102,22 @@ export class ProfileComponent {
     const body = this.profileForm.value;
   
     this.http.put('http://localhost:5000/api/auth/update', body, { headers }).subscribe({
-      next: () => {
-        this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Profil mis à jour' });
-      },
-      error: () => {
-        this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Échec de la mise à jour' });
-      }
+     next: () => {
+  alert('✅ Succès : Profil mis à jour');
+},
+error: () => {
+  alert('❌ Erreur : Échec de la mise à jour');
+}
+
     });
   }
   ngOnInit(){
-     this.items = [{ icon: 'pi pi-home', route: '/installation' }, { label: 'Home', route: '/inputtext' }, { label: 'Dashboard', route: '/dashboard' }, { label: 'Edit Profil', route: '/profile' }];
+    this.items = [{ icon: 'pi pi-home', route: '/installation' }, { label: 'Home', route: '/inputtext' }, { label: 'Profil', route: '/dashboard' }, { label: 'Edite profil', route: '/add-cours' }];
+   this.socketService.listen('nouveau-cours').subscribe((data: any) => {
+    this.notifications.unshift({
+      message: data.message,
+      timestamp: new Date()
+    });
+  }); 
   }
 }

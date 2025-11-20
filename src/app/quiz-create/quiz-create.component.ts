@@ -9,13 +9,15 @@ import { Breadcrumb } from 'primeng/breadcrumb';
 import { WebsocketService } from '../websocket.service';
 import { AuthService } from '../auth.service';
 import { jwtDecode } from 'jwt-decode';
+import { Tooltip } from 'primeng/tooltip';
+import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-quiz-create',
   templateUrl: './quiz-create.component.html',
   styleUrls: ['./quiz-create.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule,RouterModule,    Breadcrumb,
+  imports: [CommonModule, FormsModule,RouterModule,    Breadcrumb,Tooltip,InputTextModule
   ],
     providers: [MessageService],
   
@@ -67,7 +69,7 @@ export class QuizCreateComponent {
       this.router.navigate(['/login']);
     }
   
-    this.items = [{ icon: 'pi pi-home', route: '/installation' }, { label: 'Home', route: '/inputtext' }, { label: 'Quiz', route: '/dashboard' }, { label: 'Create Quiz', route: '/add-cours' }];
+    this.items = [{ icon: 'pi pi-home', route: '/installation' }, { label: 'Home', route: '/inputtext' }, { label: 'Quiz', route: '/dashboard' }, { label: 'Create quiz', route: '/add-cours' }];
     this.socketService.listen('nouveau-cours').subscribe((data: any) => {
       this.notifications.unshift({
         message: data.message,
@@ -75,6 +77,9 @@ export class QuizCreateComponent {
       });
     });
   }
+  goToProfile() {
+  this.router.navigate(['/profile']); // remplacez '/profile' par le vrai chemin de votre page profil
+}
   createQuiz() {
     const token = localStorage.getItem('token'); // récupère ton JWT depuis le localStorage
 

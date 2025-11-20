@@ -9,11 +9,12 @@ import { Breadcrumb } from 'primeng/breadcrumb';
 import { WebsocketService } from '../websocket.service';
 import { AuthService } from '../auth.service';
 import { jwtDecode } from 'jwt-decode';
+import { DialogModule } from 'primeng/dialog';
 
 @Component({
   selector: 'app-quiz-list',
   standalone: true,
-  imports: [CommonModule, FormsModule,    Breadcrumb,RouterModule
+  imports: [CommonModule, FormsModule,Breadcrumb,RouterModule,DialogModule
   ],
   providers: [MessageService],
 
@@ -29,6 +30,49 @@ export class QuizListComponent {
    dropdownOpen = false;
    profileDropdownOpen = false;
    username: string = '';
+// Ajouter dans QuizListComponent (en haut dans la classe)
+selectedQuizId: string = '';
+showMiniGame: boolean = false;
+gameQuestion: string = '';
+userGameAnswer: string = '';
+gameSuccess: boolean = false;
+
+// Liste de questions simples (algorithmes de base)
+algorithmGames = [
+  { question: 'Quel est le résultat de 5 + 3 * 2 ?', answer: '11' },
+  { question: 'Combien vaut factorial(3) ?', answer: '6' },
+  { question: 'Quel est le plus grand entre 8, 12, et 5 ?', answer: '12' },
+  { question: 'Combien y a-t-il de bits dans un octet ?', answer: '8' },
+  { question: 'Résultat de 2^4 ?', answer: '16' }
+];
+
+// Choix aléatoire
+getRandomGame() {
+  const randomIndex = Math.floor(Math.random() * this.algorithmGames.length);
+  return this.algorithmGames[randomIndex];
+}
+
+// Quand on clique sur un quiz
+attemptQuiz(quizId: string) {
+  this.selectedQuizId = quizId;
+  const game = this.getRandomGame();
+  this.gameQuestion = game.question;
+  this.gameSuccess = false;
+  this.userGameAnswer = '';
+  this.showMiniGame = true;
+}
+
+// Vérifie la réponse
+checkGameAnswer() {
+  const correct = this.algorithmGames.find(q => q.question === this.gameQuestion)?.answer;
+  if (this.userGameAnswer.trim() === correct) {
+    this.gameSuccess = true;
+    this.showMiniGame = false;
+    this.router.navigate(['/quiz-answer', this.selectedQuizId]);
+  } else {
+    this.messageService.add({ severity: 'error', summary: 'Incorrect', detail: 'Mauvaise réponse. Essayez encore.' });
+  }
+}
 
    toggleDropdown() {
      this.dropdownOpen = !this.dropdownOpen;
@@ -68,7 +112,7 @@ export class QuizListComponent {
           this.router.navigate(['/login']);
         }
     this.loadQuizzes();
-    this.items = [{ icon: 'pi pi-home', route: '/installation' }, { label: 'Home', route: '/inputtext' }, { label: 'Quiz', route: '/dashboard' }, { label: 'List Quiz', route: '/add-cours' }];
+    this.items = [{ icon: 'pi pi-home', route: '/installation' }, { label: 'Home', route: '/inputtext' }, { label: 'Quiz', route: '/dashboard' }, { label: 'List quiz', route: '/add-cours' }];
     this.socketService.listen('nouveau-cours').subscribe((data: any) => {
       this.notifications.unshift({
         message: data.message,
@@ -76,7 +120,9 @@ export class QuizListComponent {
       });
     });
   }
-
+goToProfile() {
+  this.router.navigate(['/profile']); // remplacez '/profile' par le vrai chemin de votre page profil
+}
   loadQuizzes() {
     const token = localStorage.getItem('token');
 

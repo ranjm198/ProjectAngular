@@ -14,7 +14,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ToastModule } from 'primeng/toast';
 import { SidebarModule } from 'primeng/sidebar';
 import { WebsocketService } from '../websocket.service';
-
+import { Dialog } from 'primeng/dialog';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -29,7 +29,8 @@ import { WebsocketService } from '../websocket.service';
     ToastModule,
     SidebarModule,
     ButtonModule,
-    CardModule
+    CardModule,
+    ButtonModule, InputTextModule
   ],
   providers: [MessageService],
   templateUrl: './dashboard.component.html',
@@ -48,7 +49,14 @@ export class DashboardComponent {
   notifications: { message: string; timestamp: Date }[] = [];
   dropdownOpen = false;
   profileDropdownOpen = false;
-  
+  visible: boolean = false;
+
+    showDialog() {
+        this.visible = true;
+    }
+  goToProfile() {
+  this.router.navigate(['/profile']); // remplacez '/profile' par le vrai chemin de votre page profil
+}
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;
     this.profileDropdownOpen = false; // Ferme l’autre

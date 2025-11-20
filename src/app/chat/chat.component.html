@@ -1,0 +1,7 @@
+<h2>Liste des enseignants</h2>
+<ul>
+  <li *ngFor="let ens of enseignants">
+    {{ ens.username }}
+    <button (click)="discuterAvec(ens._id)">Envoyer un message</button>
+  </li>
+</ul>

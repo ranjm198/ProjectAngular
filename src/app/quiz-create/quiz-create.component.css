@@ -194,20 +194,19 @@ body {
     cursor: pointer;
   }
   
-  .icon-wrapper {
-    background-color: #007bff; /* Bleu clair */
-    color: white;              /* Couleur de l'icône */
-    padding: 8px;
-    border-radius: 50%;        /* Cercle */
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    border: none;              /* Supprime la bordure */
-  }
-  
+.icon-wrapper {
+  background-color: #1e2746; /* Bleu clair */
+  color: white;              /* Couleur de l'icône */
+  padding: 8px;
+  border-radius: 50%;        /* Cercle */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  border: none;              /* Supprime la bordure */
+}
   
   .badge {
     position: absolute;
@@ -249,4 +248,120 @@ body {
     font-weight: bold;
     font-size: 0.85rem;
   }
-  
+  body {
+  background: linear-gradient(135deg, #2a2f4a, #1e2746);
+  font-family: 'Poppins', sans-serif;
+  color: #f1f1f1;
+}
+
+/* Card */
+.card {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.01);
+}
+
+/* Titles */
+h6, .card-title {
+  background: linear-gradient(135deg, #3a499e, #4b63b9);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+}
+
+/* Labels */
+label.form-label {
+  color: #3a499e;
+  font-weight: 500;
+}
+
+/* Inputs */
+input.form-control {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid #444;
+  color: #000000;
+  border-radius: 0.75rem;
+  transition: 0.3s ease;
+}
+
+input.form-control:focus {
+  border-color: #6c63ff;
+  box-shadow: 0 0 0 0.2rem rgba(108, 99, 255, 0.25);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Buttons */
+.btn {
+  border-radius: 2rem;
+  font-weight: 600;
+  padding: 0.5rem 1.2rem;
+  border: none;
+  color: #fff;
+  transition: 0.3s ease-in-out;
+}
+
+.btn-outline-primary {
+  background: transparent;
+  border: 1px solid #6c63ff;
+  color: #6c63ff;
+}
+
+.btn-outline-primary:hover {
+  background: linear-gradient(135deg, #2a2f4a, #1e2746);
+  color: #fff;
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #2a2f4a, #1e2746);
+}
+
+.btn-success:hover {
+  background: linear-gradient(135deg, #2a2f4a, #1e2746);
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #ff4b5c, #ff6b81);
+}
+
+.btn-danger:hover {
+  background: linear-gradient(135deg, #e60026, #ff4f5a);
+}
+
+/* HR Line */
+hr {
+  border-top: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+/* Animations */
+@keyframes bounceIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card-body {
+  animation: bounceIn 0.6s ease-in-out;
+}

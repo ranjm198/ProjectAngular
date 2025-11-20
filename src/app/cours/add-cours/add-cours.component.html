@@ -4,17 +4,19 @@
     <!-- Sidebar -->
     <div class="sidebar bg-dark text-white">
       <div class="sidebar-header text-center py-3">
-        <h4>LearnFyTN</h4>
+      <h3>AqraOnline</h3>
       </div>
-      <ul class="nav flex-column px-2">
-        <li class="nav-item"><a class="nav-link text-white" routerLink="/dashboard"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
-        <li class="nav-item"><a class="nav-link text-white" routerLink="/list-cours"><i class="fas fa-list me-2"></i>Course List</a></li>
-        <li class="nav-item"><a class="nav-link text-white" routerLink="/add-cours"><i class="fas fa-plus-circle me-2"></i>Add Course</a></li>
-        <li class="nav-item"><a class="nav-link text-white" routerLink="/my-courses"><i class="fas fa-book me-2"></i>My Courses</a></li>
-        <li class="nav-item"><a class="nav-link text-white" routerLink="/quiz-list"><i class="fas fa-question-circle me-2"></i>Quiz List</a></li>    
-        <li class="nav-item"><a class="nav-link text-white" routerLink="/quiz-create"><i class="fas fa-plus-circle me-2"></i>Add Quiz</a></li>
-        <li class="nav-item"><a class="nav-link text-white" routerLink="/messages"><i class="fas fa-envelope me-2"></i>Messages</a></li>
-      </ul>
+       <ul class="nav flex-column px-2">
+      <li class="nav-item"><a class="nav-link text-white" routerLink="/dashboard"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
+      <li class="nav-item"><a class="nav-link text-white" routerLink="/list-cours"><i class="fas fa-list me-2"></i>Course List</a></li>
+      <li class="nav-item"><a class="nav-link text-white" routerLink="/add-cours"><i class="fas fa-plus-circle me-2"></i>Add Course</a></li>
+      <li class="nav-item"><a class="nav-link text-white" routerLink="/cours-join"><i class="fas fa-book me-2"></i>My Courses</a></li>
+      <li class="nav-item"><a class="nav-link text-white" routerLink="/quiz-list"><i class="fas fa-question-circle me-2"></i>Quiz List</a></li>    
+      <li class="nav-item"><a class="nav-link text-white" routerLink="/quiz-create"><i class="fas fa-plus-circle me-2"></i>Add Quiz</a></li>
+      <li class="nav-item"><a class="nav-link text-white" routerLink="/exams"><i class="fas fa-file-alt"></i>Exams List</a></li>
+          <li class="nav-item"><a class="nav-link text-white" routerLink="/add-exam"><i class="fas fa-plus-square"></i>Add examen</a></li>
+
+    </ul>
     </div>
   
     <!-- Page Content -->
@@ -25,7 +27,6 @@
           <i class="fas fa-bars"></i>
         </button>
   
-        <span class="navbar-brand mb-0 h1">Add Course </span>
   
     
         <div class="ms-auto d-flex align-items-center">
@@ -58,7 +59,9 @@
         
             <div class="dropdown-menu dropdown-menu-end show" *ngIf="profileDropdownOpen" style="position: absolute; right: 0; top: 100%;">
               <div class="dropdown-header px-3 py-2 text-muted"> Welcome {{ username || 'Admin' }} !</div>
-              <div class="dropdown-item"><i class="fas fa-user-edit me-2"></i>Edit Profile</div>
+<div class="dropdown-item" (click)="goToProfile()">
+  <i class="fas fa-user-edit me-2"></i>Edit Profile
+</div>
               <hr class="dropdown-divider my-1">
               <div class="dropdown-item text-danger" (click)="logout()">
                 <i class="fas fa-sign-out-alt me-2"></i>Logout
@@ -86,65 +89,101 @@
           </ng-template>
         </p-breadcrumb>
       </div>
-      <div class="container-fluid mt-4">
-        <div class="row">
-          <div class="col-12">
-            <div class="card p-4 shadow-sm">
-              <h6 class="mb-4 d-flex align-items-center text-secondary">
-                <i class="fas fa-plus-circle me-2 text-primary fs-6"></i> Add a Course
-              </h6>
-      
-              <form (ngSubmit)="submit()" id="courseForm">
-                <!-- Course Name -->
-                <div class="mb-3">
-                  <label for="courseName" class="form-label small">Course Name</label>
-                  <input
-                    id="courseName"
-                    name="nomCours"
-                    type="text"
-                    [(ngModel)]="nomCours"
-                    required
-                    placeholder="Enter the course name"
-                    class="form-control form-control-sm"
-                  />
+    <div class="container-fluid mt-4">
+  <div class="row">
+    <div class="col-12">
+      <div class="card p-4 shadow-sm glass-card">
+        <h4 class="mb-4 d-flex align-items-center text-dark">
+              <i class="fas fa-book me-2 text-primary fs-6"></i> Add course
+            </h4>
+
+        <p-stepper [value]="1" class="w-100">
+          <p-step-list>
+            <p-step [value]="1">Course Name</p-step>
+            <p-step [value]="2">Matter</p-step>
+            <p-step [value]="3">Upload</p-step>
+          </p-step-list>
+
+          <p-step-panels>
+            <!-- Step 1 -->
+            <p-step-panel [value]="1">
+              <ng-template #content let-activateCallback="activateCallback">
+                <div class="flex flex-col h-48">
+                  <div class="mb-3">
+                    <label for="courseName" class="form-label">Course Name</label>
+                    <input
+                      id="courseName"
+                      name="nomCours"
+                      type="text"
+                      [(ngModel)]="nomCours"
+                      required
+                      placeholder="Enter the course name"
+                      class="form-control"
+                    />
+                  </div>
+                  <div class="d-flex justify-content-end pt-3">
+                    <p-button
+                      label="Next"
+severity="primary"                      icon="pi pi-arrow-right"
+                      (onClick)="activateCallback(2)">
+                    </p-button>
+                  </div>
                 </div>
-      
-                <!-- Matter Name -->
-                <div class="mb-3">
-                  <label for="matiere" class="form-label small">Matter Name</label>
-                  <input
-                    id="matiere"
-                    name="matiere"
-                    type="text"
-                    [(ngModel)]="matiere"
-                    required
-                    placeholder="Enter the matter name"
-                    class="form-control form-control-sm"
-                  />
+              </ng-template>
+            </p-step-panel>
+
+            <!-- Step 2 -->
+            <p-step-panel [value]="2">
+              <ng-template #content let-activateCallback="activateCallback">
+                <div class="flex flex-col h-48">
+                  <div class="mb-3">
+                    <label for="matiere" class="form-label">Matter Name</label>
+                    <input
+                      id="matiere"
+                      name="matiere"
+                      type="text"
+                      [(ngModel)]="matiere"
+                      required
+                      placeholder="Enter the matter name"
+                      class="form-control"
+                    />
+                  </div>
+                  <div class="d-flex justify-content-between pt-3">
+                    <p-button label="Back" icon="pi pi-arrow-left" severity="secondary" (onClick)="activateCallback(1)"></p-button>
+                    <p-button label="Next" icon="pi pi-arrow-right" iconPos="right" (onClick)="activateCallback(3)"></p-button>
+                  </div>
                 </div>
-      
-                <!-- Upload PDF -->
-                <div class="mb-4">
-                  <label for="pdfUpload" class="form-label small">Upload a PDF</label>
-                  <input
-                    id="pdfUpload"
-                    type="file"
-                    (change)="onFileChange($event)"
-                    accept="application/pdf"
-                    class="form-control form-control-sm"
-                  />
+              </ng-template>
+            </p-step-panel>
+
+            <!-- Step 3 -->
+            <p-step-panel [value]="3">
+              <ng-template #content let-activateCallback="activateCallback">
+                <div class="flex flex-col h-48">
+                  <div class="mb-3">
+                    <label for="pdfUpload" class="form-label">Upload PDF</label>
+                    <input
+                      id="pdfUpload"
+                      type="file"
+                      accept="application/pdf"
+                      (change)="onFileChange($event)"
+                      class="form-control"
+                    />
+                  </div>
+                  <div class="d-flex justify-content-between pt-3">
+                    <p-button label="Back" icon="pi pi-arrow-left" severity="secondary" (onClick)="activateCallback(2)"></p-button>
+                    <p-button label="Submit" icon="pi pi-check" (onClick)="submit()"></p-button>
+                  </div>
                 </div>
-      
-                <!-- Submit Button -->
-                <button type="submit" class="btn btn-success btn-sm">
-                  <i class="fas fa-plus me-1"></i> Add Course
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
+              </ng-template>
+            </p-step-panel>
+          </p-step-panels>
+        </p-stepper>
       </div>
-      
+    </div>
+  </div>
+</div>
+
       
     </div>
   </div>

@@ -190,23 +190,23 @@ body {
 
   }
   .notification-wrapper {
-    position: relative;
-    cursor: pointer;
+    position: relative; 
+    cursor: pointer; 
   }
   
-  .icon-wrapper {
-    background-color: #007bff; /* Bleu clair */
-    color: white;              /* Couleur de l'icône */
-    padding: 8px;
-    border-radius: 50%;        /* Cercle */
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    border: none;              /* Supprime la bordure */
-  }
+.icon-wrapper {
+  background-color: #1e2746; /* Bleu clair */
+  color: white;              /* Couleur de l'icône */
+  padding: 8px;
+  border-radius: 50%;        /* Cercle */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  border: none;              /* Supprime la bordure */
+}
   
   
   .badge {
@@ -249,4 +249,157 @@ body {
     font-weight: bold;
     font-size: 0.85rem;
   }
-  
+  /* Container général */
+.quiz-container {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  margin: 20px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Titre principal */
+.quiz-title {
+  font-weight: 700;
+  font-size: 1.8rem;
+  margin-bottom: 1.2rem;
+  color: #222;
+}
+
+/* Etat vide */
+.empty-state {
+  color: #888;
+  font-style: italic;
+  text-align: center;
+  margin-top: 3rem;
+}
+
+/* Grille des quiz */
+.quiz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+/* Carte quiz */
+.quiz-card {
+  background: linear-gradient(135deg, #2a2f4a, #1e2746);
+  color: #fff;
+  padding: 1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: box-shadow 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 140px;
+  box-shadow: 0 3px 8px rgba(59, 130, 246, 0.3);
+}
+
+.quiz-card:hover {
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+}
+
+/* Titre de la carte */
+.quiz-card-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+}
+
+/* Bouton démarrer */
+.btn-start {
+  margin-top: 0.6rem;
+  padding: 0.45rem 0;
+  background: #3b82f6; /* Orange simple */
+  border: none;
+  border-radius: 20px;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  box-shadow: 0 2px 6px #3b82f6;
+  transition: background 0.3s ease;
+}
+
+.btn-start:hover {
+  background: #cfcac7;
+}
+
+/* Dialog mini jeu */
+.game-dialog-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, #2a2f4a, #1e2746);
+  border-radius: 12px;
+  color: #f0f4f8;
+  box-shadow: 0 5px 15px rgba(37, 99, 235, 0.6);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Question */
+.game-question {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-align: center;
+  text-shadow: 0 0 3px #0003;
+}
+
+/* Input */
+.game-input {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 2px solid #93c5fd;
+  background: #f9fafb;
+  color: #1e293b;
+  margin-bottom: 1rem;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+  transition: border-color 0.3s ease;
+}
+
+.game-input:focus {
+  border-color: #3b82f6;
+  outline: none;
+  box-shadow: 0 0 6px #3b82f6;
+}
+
+/* Bouton valider */
+.btn-validate {
+  padding: 0.5rem 1.2rem;
+  background: #3b82f6;
+  border: none;
+  border-radius: 25px;
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  box-shadow: 0 3px 10px rgba(59, 130, 246, 0.4);
+}
+
+.btn-validate:hover {
+  background: #2563eb;
+}
+
+/* Bouton annuler */
+.btn-cancel {
+  padding: 0.5rem 1.5rem;
+  background: #ef4444; /* rouge simple */
+  border: none;
+  border-radius: 25px;
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  box-shadow: 0 3px 10px rgba(239, 68, 68, 0.4);
+}
+
+.btn-cancel:hover {
+  background: #dc2626;
+}

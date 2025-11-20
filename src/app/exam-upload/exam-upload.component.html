@@ -1,0 +1,157 @@
+<!-- dashboard.component.html -->
+<div class="wrapper" [class.sidebar-collapsed]="!sidebarOpen">
+  <!-- Sidebar -->
+  <div class="sidebar bg-dark text-white">
+    <div class="sidebar-header text-center py-3">
+      <h3>AqraOnline</h3>
+    </div>
+     <ul class="nav flex-column px-2">
+      <li class="nav-item"><a class="nav-link text-white" routerLink="/dashboard"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
+      <li class="nav-item"><a class="nav-link text-white" routerLink="/list-cours"><i class="fas fa-list me-2"></i>Course List</a></li>
+      <li class="nav-item"><a class="nav-link text-white" routerLink="/add-cours"><i class="fas fa-plus-circle me-2"></i>Add Course</a></li>
+      <li class="nav-item"><a class="nav-link text-white" routerLink="/cours-join"><i class="fas fa-book me-2"></i>My Courses</a></li>
+      <li class="nav-item"><a class="nav-link text-white" routerLink="/quiz-list"><i class="fas fa-question-circle me-2"></i>Quiz List</a></li>    
+      <li class="nav-item"><a class="nav-link text-white" routerLink="/quiz-create"><i class="fas fa-plus-circle me-2"></i>Add Quiz</a></li>
+      <li class="nav-item"><a class="nav-link text-white" routerLink="/exams"><i class="fas fa-file-alt"></i>Exams List</a></li>
+          <li class="nav-item"><a class="nav-link text-white" routerLink="/add-exam"><i class="fas fa-plus-square"></i>Add examen</a></li>
+
+    </ul>
+  </div>
+
+  <!-- Page Content -->
+  <div class="main">
+    <!-- Topbar -->
+    <nav class="navbar navbar-expand-lg  px-4">
+      <button class="btn btn-outline-dar me-3" (click)="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+      </button>
+
+
+      <div class="ms-auto d-flex align-items-center">
+        <!-- Notification personnalisé -->
+        <div class="notification-wrapper me-3" (click)="toggleDropdown()">
+          <div class="icon-wrapper">
+            <i class="fas fa-bell"></i>
+                    
+            <span *ngIf="notifications.length > 0" class="badge">{{ notifications.length }}</span>
+          </div>
+          <div class="dropdown-menu dropdown-menu-end show" *ngIf="dropdownOpen" style="position: absolute; right: 0; top: 100%;">
+            <div *ngIf="notifications.length === 0" class="dropdown-item text-muted">
+              <i class="fas fa-info-circle me-2"></i> No new notifications
+            </div>
+            <div *ngFor="let notif of notifications" class="dropdown-item d-flex justify-content-between align-items-start">
+              <div class="notif-text">
+                <div class="notif-message">{{ notif.message }}</div>
+                <div class="notif-time small text-muted">{{ notif.timestamp | date:'short' }}</div>
+              </div>
+              <i class="fas fa-book text-primary ms-2"></i>
+            </div>
+          </div>
+        </div>
+      
+        <!-- Profile personnalisé (comme notification) -->
+        <div class="notification-wrapper" (click)="toggleProfileDropdown()">
+          <div class="icon-wrapper btn btn-outline-secondary">
+            <i class="fas fa-user"></i>
+          </div>
+      
+          <div class="dropdown-menu dropdown-menu-end show" *ngIf="profileDropdownOpen" style="position: absolute; right: 0; top: 100%;">
+            <div class="dropdown-header px-3 py-2 text-muted"> Welcome {{ username || 'Admin' }} !</div>
+<div class="dropdown-item" (click)="goToProfile()">
+  <i class="fas fa-user-edit me-2"></i>Edit Profile
+</div>            <hr class="dropdown-divider my-1">
+            <div class="dropdown-item text-danger" (click)="logout()">
+              <i class="fas fa-sign-out-alt me-2"></i>Logout
+            </div>
+                      </div>
+        </div>
+      </div>
+      
+      
+    </nav>
+    <div class="flex justify-center mb-4">
+      <p-breadcrumb 
+        [model]="items"
+        class="bg-transparent border-none shadow-none p-0">
+        <ng-template #item let-item>
+          <ng-container *ngIf="item.route; else elseBlock">
+            <a [routerLink]="item.route" class="p-breadcrumb-item-link">
+              <span [ngClass]="[item.icon ? item.icon : '', 'text-color']"></span>
+              <span class="text-primary font-semibold">{{ item.label }}</span>
+            </a>
+          </ng-container>
+          <ng-template #elseBlock>
+            <a [href]="item.url">
+              <span class="text-color">{{ item.label }}</span>
+            </a>
+          </ng-template>
+        </ng-template>
+      </p-breadcrumb>
+
+    </div>  
+ <div class="container-fluid mt-4">
+  <div class="mb-3 d-flex justify-content-between align-items-center">
+            <h4> <i class="fas fa-book me-2 text-primary fs-6"></i>Exam submissions</h4>
+<br>
+    <button
+      pButton
+      type="button"
+      label="Add Exam"
+      icon="pi pi-plus"
+      class="p-button-success"
+      (click)="openDialog()"
+    ></button>
+  </div>
+
+  <div *ngIf="submissions.length === 0">
+    {{ message || 'No submissions available.' }}
+  </div>
+
+  <p-table *ngIf="submissions.length > 0" [value]="submissions" class="p-datatable-gridlines">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Student</th>
+        <th>File</th>
+        <th>Exam ID</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-s>
+      <tr>
+        <td>{{ s.etudiant }}</td>
+        <td><a [href]="'/uploads/' + s.filePath" target="_blank">Download</a></td>
+        <td>{{ s.examId }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <!-- Dialog -->
+  <p-dialog header="Add Exam" [(visible)]="showDialog" [modal]="true" [style]="{ width: '500px' }">
+    <form [formGroup]="examForm" (ngSubmit)="onSubmit()">
+      <div class="mb-2">
+        <label for="title">Exam Title</label>
+        <input id="title" pInputText formControlName="title" class="p-inputtext-sm w-100" />
+      </div>
+
+      <div class="mb-2">
+        <label for="description">Description</label>
+        <textarea id="description" pInputTextarea formControlName="description" class="w-100"></textarea>
+      </div>
+
+      <div class="mb-2">
+        <label for="pdf">PDF File</label>
+        <input id="pdf" type="file" (change)="onFileSelected($event)" />
+      </div>
+
+      <div class="mt-3 text-end">
+        <button pButton type="submit" label="Create" class="p-button-success" [disabled]="examForm.invalid"></button>
+      </div>
+
+      <p class="text-success" *ngIf="successMsg">{{ successMsg }}</p>
+      <p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
+    </form>
+  </p-dialog>
+</div>
+
+
+  </div>
+</div>

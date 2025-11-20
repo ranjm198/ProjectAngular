@@ -112,6 +112,7 @@ body {
   
   .card .card-title {
     font-weight: 600;
+    color: #000;
     font-size: 1.2rem;
   }
   
@@ -194,19 +195,19 @@ body {
     cursor: pointer;
   }
   
-  .icon-wrapper {
-    background-color: #007bff; /* Bleu clair */
-    color: white;              /* Couleur de l'icône */
-    padding: 8px;
-    border-radius: 50%;        /* Cercle */
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    border: none;              /* Supprime la bordure */
-  }
+ .icon-wrapper {
+  background-color: #1e2746; /* Bleu clair */
+  color: white;              /* Couleur de l'icône */
+  padding: 8px;
+  border-radius: 50%;        /* Cercle */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  border: none;              /* Supprime la bordure */
+}
   
   
   .badge {
@@ -249,30 +250,85 @@ body {
     font-weight: bold;
     font-size: 0.85rem;
   }
-  .modern-add-course-card {
-    background-color: #f8fbff; /* Bleu très clair */
-    border-radius: 12px;
-    padding: 1rem;
-  }
-  
-  .modern-input {
-    border-radius: 8px;
-    font-size: 0.85rem;
-    padding: 0.5rem 0.75rem;
-  }
-  
-  .btn-outline-primary {
-    font-size: 0.8rem;
-    border-radius: 6px;
-    transition: background-color 0.2s ease;
-  }
-  
-  .btn-outline-primary:hover {
-    background-color: #0d6efd;
-    color: white;
-  }
-  
-  .form-divider {
-    border-top: 1px solid #d1e3f3;
-  }
-  
+ body {
+  background: linear-gradient(135deg, #2a2f4a, #1e2746);
+  font-family: 'Poppins', sans-serif;
+  color: #f1f1f1;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.25rem;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+.title-gradient {
+  background: linear-gradient(135deg, #6c63ff, #928cff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+}
+
+label.form-label {
+  color: #000000e0;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+input.form-control {
+  background: rgba(255, 255, 255, 0.07);
+  color: #000000;
+  border: 1px solid #444;
+  border-radius: 0.5rem;
+  transition: 0.3s ease;
+}
+
+input.form-control:focus {
+  border-color: #f0f0f0;
+  background-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 0 0.2rem #0d6efd
+}
+
+.custom-next-btn,
+.p-button,
+.p-button-primary {
+  background: linear-gradient(135deg, #6c63ff, #928cff) !important;
+  border: none !important;
+  color: white !important;
+  border-radius: 30px !important;
+  padding: 0.4rem 1.5rem !important;
+  font-weight: 600 !important;
+  box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3) !important;
+  transition: all 0.3s ease-in-out !important;
+}
+
+.p-button:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 20px rgba(108, 99, 255, 0.45);
+}
+
+.p-button-secondary {
+  background-color: transparent !important;
+  border: 1px solid #888 !important;
+  color: #ccc !important;
+}
+
+.p-button-secondary:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: #aaa !important;
+}
+/* Ajoute ça dans ton fichier CSS global ou component CSS */
+.custom-next-btn {
+  background-color: #87ceeb !important;  /* bleu ciel */
+  border-color: #87ceeb !important;
+  color: white !important;
+}
+
+.custom-next-btn:hover {
+  background-color: #00bfff !important; /* bleu un peu plus foncé au hover */
+  border-color: #00bfff !important;
+  color: white !important;
+}
